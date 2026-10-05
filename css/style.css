@@ -425,39 +425,6 @@ button { font: inherit; }
   .main-nav a { padding: 0.4rem 1rem; color: var(--ink); font: 700 1.8rem var(--font-display); }
   .main-nav .nav-contact { margin: 0.4rem 0 0; padding: 0.7rem 1.4rem; font-size: 1rem; }
   .hero { min-height: 0; grid-template-columns: 1fr; gap: 2.5rem; padding-block: 3.5rem 5.5rem; }
-
-  /* Fondo estático del hero en celulares: sin canvas ni animación */
-  #bg-canvas { display: none; }
-  .hero::before,
-  .hero::after { content: ""; position: absolute; z-index: 0; inset: 0; pointer-events: none; }
-  /* resplandores violeta/cian + anillos curvos que nacen de las esquinas */
-  .hero::before {
-    --glow-a: color-mix(in srgb, var(--accent) 26%, transparent);
-    --glow-v: color-mix(in srgb, var(--violet) 38%, transparent);
-    --ring-a: color-mix(in srgb, var(--accent) 38%, transparent);
-    --ring-v: color-mix(in srgb, var(--violet) 45%, transparent);
-    background:
-      radial-gradient(circle at 100% 0, transparent 138px, var(--ring-a) 139px, var(--ring-a) 140px, transparent 141px),
-      radial-gradient(circle at 100% 0, transparent 198px, var(--ring-v) 199px, var(--ring-v) 200px, transparent 201px),
-      radial-gradient(circle at 100% 0, transparent 268px, var(--ring-a) 269px, var(--ring-a) 270px, transparent 271px),
-      radial-gradient(circle at 0 100%, transparent 168px, var(--ring-v) 169px, var(--ring-v) 170px, transparent 171px),
-      radial-gradient(circle at 0 100%, transparent 238px, var(--ring-a) 239px, var(--ring-a) 240px, transparent 241px),
-      radial-gradient(60% 34% at 92% 6%, var(--glow-a), transparent 72%),
-      radial-gradient(75% 40% at 4% 58%, var(--glow-v), transparent 72%),
-      radial-gradient(65% 32% at 88% 98%, var(--glow-a), transparent 72%);
-  }
-  /* puntos luminosos en curva ascendente (eco del diagrama del fondo animado) */
-  .hero::after {
-    background:
-      radial-gradient(circle, var(--accent) 0 2.5px, transparent 3.5px) 8% 92% / 10px 10px no-repeat,
-      radial-gradient(circle, var(--violet) 0 4px, transparent 5px) 24% 84% / 12px 12px no-repeat,
-      radial-gradient(circle, var(--accent) 0 3px, transparent 4px) 42% 72% / 10px 10px no-repeat,
-      radial-gradient(circle, var(--violet) 0 5px, transparent 6px) 62% 52% / 14px 14px no-repeat,
-      radial-gradient(circle, var(--accent) 0 3px, transparent 4px) 80% 30% / 10px 10px no-repeat,
-      radial-gradient(circle, var(--violet) 0 4px, transparent 5px) 93% 12% / 12px 12px no-repeat;
-    filter: drop-shadow(0 0 6px var(--accent));
-    opacity: 0.75;
-  }
   .scroll-note { display: none; }
   .solutions { padding-block: 4rem; }
   .projects { padding-block: 2rem 4.5rem; }
