@@ -74,17 +74,17 @@ themeBtn.addEventListener("click", () => {
   try { localStorage.setItem("theme", next); } catch (e) {}
   syncThemeLabel();
   readPalette();
-  if (calm) draw(performance.now());
+  if (calm && active) draw(performance.now());
 });
 
 /* Fondo: líneas curvas vivas con pulsos de luz (transmisión de datos) */
 const canvas = document.getElementById("bg-canvas");
-const ctx = canvas.getContext("2d");
+let ctx = null; // el contexto se crea recién cuando el fondo se activa (solo escritorio)
 // El fondo siempre se anima, sin importar la preferencia "reducir movimiento" del sistema
 const calm = false;
 const t0 = performance.now();
 const STEPS = 160;
-let W = 0, H = 0, lines = [], visible = true, raf = 0, last = t0;
+let W = 0, H = 0, lines = [], visible = true, raf = 0, last = t0, active = false, observer = null;
 let mx = 0, my = 0, tx = 0, ty = 0;
 
 const bezier = (p, t, out) => {
@@ -178,9 +178,9 @@ const draw = (now) => {
 
 const loop = (now) => {
   draw(now);
-  raf = visible && !calm ? requestAnimationFrame(loop) : 0;
+  raf = active && visible && !calm ? requestAnimationFrame(loop) : 0;
 };
-const start = () => { if (!raf && visible && !calm) raf = requestAnimationFrame(loop); };
+const start = () => { if (!raf && active && visible && !calm) raf = requestAnimationFrame(loop); };
 
 const heroEl = canvas.parentElement;
 heroEl.addEventListener("pointermove", (e) => {
@@ -192,10 +192,32 @@ heroEl.addEventListener("pointerleave", () => { tx = 0; ty = 0; });
 
 readPalette();
 syncThemeLabel();
-build();
-if (calm) draw(performance.now()); else start();
-window.addEventListener("resize", () => { build(); if (calm) draw(performance.now()); });
-new IntersectionObserver(([e]) => { visible = e.isIntersecting; start(); }).observe(heroEl);
+
+/* En celulares (<= 700px) el fondo animado no se inicia: el hero usa un fondo estático en CSS */
+const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+const activateBackground = () => {
+  if (active) return;
+  active = true;
+  ctx = ctx || canvas.getContext("2d");
+  last = performance.now();
+  build();
+  if (calm) draw(performance.now()); else start();
+  observer = new IntersectionObserver(([e]) => { visible = e.isIntersecting; start(); });
+  observer.observe(heroEl);
+};
+
+const deactivateBackground = () => {
+  active = false;
+  cancelAnimationFrame(raf);
+  raf = 0;
+  if (observer) observer.disconnect();
+  observer = null;
+};
+
+window.addEventListener("resize", () => { if (active) build(); });
+mobileQuery.addEventListener("change", (e) => (e.matches ? deactivateBackground() : activateBackground()));
+if (!mobileQuery.matches) activateBackground();
 
 /* Formulario de contacto */
 const form = document.getElementById("contact-form");
