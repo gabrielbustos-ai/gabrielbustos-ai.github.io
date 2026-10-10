@@ -71,7 +71,7 @@ const syncThemeLabel = () =>
 themeBtn.addEventListener("click", () => {
   const next = root.dataset.theme === "light" ? "dark" : "light";
   root.dataset.theme = next;
-  try { localStorage.setItem("theme", next); } catch (e) {}
+  try { localStorage.setItem("theme", next); } catch (e) { }
   syncThemeLabel();
   readPalette();
   if (calm && active) draw(performance.now());
@@ -253,3 +253,124 @@ form.addEventListener("submit", async (e) => {
     submitBtn.disabled = false;
   }
 });
+
+/* Certificados: carrusel infinito (flechas, arrastre y teclado) + vista ampliada */
+(() => {
+  const carousel = document.querySelector(".carousel");
+  if (!carousel) return;
+  const viewport = carousel.querySelector(".carousel-viewport");
+  const track = carousel.querySelector(".carousel-track");
+  const dialog = document.getElementById("cert-dialog");
+  const dialogImg = dialog.querySelector("img");
+  const dialogCaption = dialog.querySelector(".cert-caption");
+  const controls = document.querySelector(".carousel-controls");
+
+  // Layout fijo: [0] = tarjeta "previa" (fuera de vista), [1..per] = visibles, el resto espera a la derecha.
+  track.prepend(track.lastElementChild);
+
+  let step = 0, busy = false, dragStart = null, dragX = 0, moved = false, timer = 0;
+  const perView = () => parseInt(getComputedStyle(carousel).getPropertyValue("--per"), 10) || 1;
+
+  const measure = () => {
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    step = track.children[0].getBoundingClientRect().width + gap;
+  };
+  const place = (offset = 0) => { track.style.transform = `translate3d(${-step + offset}px,0,0)`; };
+
+  // Las tarjetas fuera de vista no reciben foco (evita que el foco desplace el carrusel)
+  const syncHidden = () => {
+    const per = perView();
+    [...track.children].forEach((li, i) => {
+      const visible = i >= 1 && i <= per;
+      li.inert = !visible;
+      li.setAttribute("aria-hidden", String(!visible));
+    });
+  };
+
+  const settle = () => {
+    track.classList.add("no-anim");
+    place();
+    syncHidden();
+    void track.offsetWidth; // fuerza el reflow antes de reactivar la animación
+    track.classList.remove("no-anim");
+    busy = false;
+  };
+
+  const go = (dir) => {
+    if (busy) return;
+    busy = true;
+    track.style.transform = `translate3d(${dir === "next" ? -2 * step : 0}px,0,0)`;
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      track.removeEventListener("transitionend", onEnd);
+      if (dir === "next") track.append(track.firstElementChild);
+      else track.prepend(track.lastElementChild);
+      settle();
+    };
+    const onEnd = (e) => { if (e.target === track) finish(); };
+    track.addEventListener("transitionend", onEnd);
+    timer = setTimeout(finish, 700); // respaldo (por ejemplo con "reducir movimiento")
+  };
+
+  controls.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-dir]");
+    if (btn) go(btn.dataset.dir);
+  });
+  carousel.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") go("next");
+    else if (e.key === "ArrowLeft") go("prev");
+  });
+
+  // Arrastre con mouse o dedo
+  viewport.addEventListener("pointerdown", (e) => {
+    if (busy || (e.pointerType === "mouse" && e.button !== 0)) return;
+    dragStart = e.clientX; dragX = 0; moved = false;
+  });
+  viewport.addEventListener("pointermove", (e) => {
+    if (dragStart === null) return;
+    dragX = e.clientX - dragStart;
+    if (!moved && Math.abs(dragX) > 6) {
+      moved = true;
+      viewport.setPointerCapture(e.pointerId);
+      viewport.classList.add("is-dragging");
+      track.classList.add("no-anim");
+    }
+    if (moved) place(dragX);
+  });
+  const endDrag = () => {
+    if (dragStart === null) return;
+    dragStart = null;
+    viewport.classList.remove("is-dragging");
+    track.classList.remove("no-anim");
+    if (!moved) return;
+    if (Math.abs(dragX) > Math.min(80, step / 4)) {
+      go(dragX < 0 ? "next" : "prev");
+    } else {
+      place();
+    }
+    setTimeout(() => { moved = false; }, 0); // evita que el arrastre dispare un "click"
+  };
+  viewport.addEventListener("pointerup", endDrag);
+  viewport.addEventListener("pointercancel", endDrag);
+  viewport.addEventListener("scroll", () => { viewport.scrollLeft = 0; });
+
+  // Vista ampliada
+  track.addEventListener("click", (e) => {
+    const thumb = e.target.closest(".cert-thumb");
+    if (!thumb || moved) return;
+    dialogImg.src = thumb.dataset.full;
+    dialogImg.alt = thumb.querySelector("img").alt;
+    dialogCaption.textContent = thumb.closest(".cert-card").querySelector("h3").textContent;
+    dialog.showModal();
+  });
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog || e.target.closest(".cert-close")) dialog.close();
+  });
+
+  window.addEventListener("resize", () => { measure(); settle(); });
+  measure();
+  settle();
+})();
