@@ -71,7 +71,7 @@ const syncThemeLabel = () =>
 themeBtn.addEventListener("click", () => {
   const next = root.dataset.theme === "light" ? "dark" : "light";
   root.dataset.theme = next;
-  try { localStorage.setItem("theme", next); } catch (e) { }
+  try { localStorage.setItem("theme", next); } catch (e) {}
   syncThemeLabel();
   readPalette();
   if (calm && active) draw(performance.now());
@@ -254,43 +254,43 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-/* Certificados: carrusel infinito (flechas, arrastre y teclado) + vista ampliada */
+/* Certificados: carrusel infinito, una tarjeta a la vez (flechas, arrastre y teclado) + vista ampliada */
 (() => {
   const carousel = document.querySelector(".carousel");
   if (!carousel) return;
   const viewport = carousel.querySelector(".carousel-viewport");
   const track = carousel.querySelector(".carousel-track");
+  const counter = document.querySelector(".carousel-count");
   const dialog = document.getElementById("cert-dialog");
   const dialogImg = dialog.querySelector("img");
   const dialogCaption = dialog.querySelector(".cert-caption");
-  const controls = document.querySelector(".carousel-controls");
+  const total = track.children.length;
 
-  // Layout fijo: [0] = tarjeta "previa" (fuera de vista), [1..per] = visibles, el resto espera a la derecha.
+  [...track.children].forEach((li, i) => { li.dataset.n = i; });
+  // Layout fijo: [0] = tarjeta previa (fuera de vista), [1] = la que se ve, [2] = siguiente
   track.prepend(track.lastElementChild);
 
-  let step = 0, busy = false, dragStart = null, dragX = 0, moved = false, timer = 0;
-  const perView = () => parseInt(getComputedStyle(carousel).getPropertyValue("--per"), 10) || 1;
+  let busy = false, dragStart = null, dragX = 0, moved = false, timer = 0;
 
-  const measure = () => {
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-    step = track.children[0].getBoundingClientRect().width + gap;
+  // El desplazamiento se calcula en CSS (porcentajes), así no depende de medir el ancho en píxeles
+  const setPos = (k, drag, animate) => {
+    track.classList.toggle("no-anim", !animate);
+    track.style.setProperty("--k", k);
+    track.style.setProperty("--drag", `${drag}px`);
   };
-  const place = (offset = 0) => { track.style.transform = `translate3d(${-step + offset}px,0,0)`; };
 
-  // Las tarjetas fuera de vista no reciben foco (evita que el foco desplace el carrusel)
-  const syncHidden = () => {
-    const per = perView();
+  // Solo la tarjeta visible recibe foco (evita que el foco desplace el carrusel)
+  const sync = () => {
     [...track.children].forEach((li, i) => {
-      const visible = i >= 1 && i <= per;
-      li.inert = !visible;
-      li.setAttribute("aria-hidden", String(!visible));
+      li.inert = i !== 1;
+      li.setAttribute("aria-hidden", String(i !== 1));
     });
+    counter.textContent = `${Number(track.children[1].dataset.n) + 1} / ${total}`;
   };
 
   const settle = () => {
-    track.classList.add("no-anim");
-    place();
-    syncHidden();
+    setPos(1, 0, false);
+    sync();
     void track.offsetWidth; // fuerza el reflow antes de reactivar la animación
     track.classList.remove("no-anim");
     busy = false;
@@ -299,7 +299,7 @@ form.addEventListener("submit", async (e) => {
   const go = (dir) => {
     if (busy) return;
     busy = true;
-    track.style.transform = `translate3d(${dir === "next" ? -2 * step : 0}px,0,0)`;
+    setPos(dir === "next" ? 2 : 0, 0, true);
     let done = false;
     const finish = () => {
       if (done) return;
@@ -310,12 +310,12 @@ form.addEventListener("submit", async (e) => {
       else track.prepend(track.lastElementChild);
       settle();
     };
-    const onEnd = (e) => { if (e.target === track) finish(); };
+    const onEnd = (e) => { if (e.target === track && e.propertyName === "transform") finish(); };
     track.addEventListener("transitionend", onEnd);
     timer = setTimeout(finish, 700); // respaldo (por ejemplo con "reducir movimiento")
   };
 
-  controls.addEventListener("click", (e) => {
+  carousel.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-dir]");
     if (btn) go(btn.dataset.dir);
   });
@@ -336,21 +336,16 @@ form.addEventListener("submit", async (e) => {
       moved = true;
       viewport.setPointerCapture(e.pointerId);
       viewport.classList.add("is-dragging");
-      track.classList.add("no-anim");
     }
-    if (moved) place(dragX);
+    if (moved) setPos(1, dragX, false);
   });
   const endDrag = () => {
     if (dragStart === null) return;
     dragStart = null;
     viewport.classList.remove("is-dragging");
-    track.classList.remove("no-anim");
     if (!moved) return;
-    if (Math.abs(dragX) > Math.min(80, step / 4)) {
-      go(dragX < 0 ? "next" : "prev");
-    } else {
-      place();
-    }
+    if (Math.abs(dragX) > Math.min(80, viewport.clientWidth / 5)) go(dragX < 0 ? "next" : "prev");
+    else setPos(1, 0, true);
     setTimeout(() => { moved = false; }, 0); // evita que el arrastre dispare un "click"
   };
   viewport.addEventListener("pointerup", endDrag);
@@ -370,7 +365,5 @@ form.addEventListener("submit", async (e) => {
     if (e.target === dialog || e.target.closest(".cert-close")) dialog.close();
   });
 
-  window.addEventListener("resize", () => { measure(); settle(); });
-  measure();
   settle();
 })();

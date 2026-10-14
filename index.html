@@ -220,105 +220,83 @@
           <p class="eyebrow">FORMACIÓN CONTINUA</p>
           <h2 id="certs-title">Siempre <span>aprendiendo.</span></h2>
         </div>
-        <div class="carousel-controls">
-          <button class="carousel-btn" type="button" data-dir="prev" aria-label="Certificado anterior">
-            <svg class="icon-line" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M15 5l-7 7 7 7" />
-            </svg>
-          </button>
-          <button class="carousel-btn" type="button" data-dir="next" aria-label="Certificado siguiente">
-            <svg class="icon-line" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+        <p class="carousel-count" aria-hidden="true"></p>
       </div>
       <div class="carousel" role="region" aria-roledescription="carrusel" aria-label="Certificados y cursos">
+        <button class="carousel-btn carousel-prev" type="button" data-dir="prev" aria-label="Certificado anterior">
+          <svg class="icon-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+        </button>
+        <button class="carousel-btn carousel-next" type="button" data-dir="next" aria-label="Certificado siguiente">
+          <svg class="icon-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+        </button>
         <div class="carousel-viewport">
           <ul class="carousel-track">
-            <li class="cert-card">
-              <button class="cert-thumb" type="button" data-full="assets/certificados/ia-generativa-unc.jpg"
-                aria-label="Ampliar certificado: IA generativa para desarrolladores">
-                <img src="assets/certificados/ia-generativa-unc.jpg"
-                  alt="Certificado de IA generativa para desarrolladores" width="1400" height="969" loading="lazy"
-                  draggable="false" />
-                <span class="cert-zoom" aria-hidden="true">Ampliar</span>
-              </button>
-              <div class="cert-body">
-                <div class="cert-meta"><span>UNC CAMPUS NORTE · GOOGLE CLOUD</span><span>2025</span></div>
-                <h3>IA generativa para desarrolladores</h3>
-                <p>Módulo universitario de 27 horas sobre el uso de IA generativa como apoyo en el desarrollo de
-                  software.</p>
-                <div class="tags"><span>IA generativa</span><span>Google Cloud</span></div>
-              </div>
-            </li>
-            <li class="cert-card">
-              <button class="cert-thumb" type="button" data-full="assets/certificados/react-typescript-udemy.jpg"
-                aria-label="Ampliar certificado: React y TypeScript: la guía completa">
-                <img src="assets/certificados/react-typescript-udemy.jpg"
-                  alt="Certificado de React y TypeScript: la guía completa" width="1400" height="1041" loading="lazy"
-                  draggable="false" />
-                <span class="cert-zoom" aria-hidden="true">Ampliar</span>
-              </button>
-              <div class="cert-body">
-                <div class="cert-meta"><span>UDEMY</span><span>2025</span></div>
-                <h3>React y TypeScript: la guía completa</h3>
-                <p>Curso de 58 horas donde construí más de 10 proyectos con React y TypeScript.</p>
-                <div class="tags"><span>React</span><span>TypeScript</span></div>
-              </div>
-            </li>
-            <li class="cert-card">
-              <button class="cert-thumb" type="button" data-full="assets/certificados/js-master-udemy.jpg"
-                aria-label="Ampliar certificado: Máster en JavaScript">
-                <img src="assets/certificados/js-master-udemy.jpg" alt="Certificado de Máster en JavaScript"
-                  width="1400" height="1041" loading="lazy" draggable="false" />
-                <span class="cert-zoom" aria-hidden="true">Ampliar</span>
-              </button>
-              <div class="cert-body">
-                <div class="cert-meta"><span>UDEMY</span><span>2020</span></div>
-                <h3>Máster en JavaScript</h3>
-                <p>31 horas recorriendo JavaScript y su ecosistema: jQuery, Angular y Node.js.</p>
-                <div class="tags"><span>JavaScript</span><span>jQuery</span><span>Angular</span><span>Node.js</span>
-                </div>
-              </div>
-            </li>
-            <li class="cert-card">
-              <button class="cert-thumb" type="button" data-full="assets/certificados/java-intermedio-proydesa.jpg"
-                aria-label="Ampliar certificado: Java Intermedio v7">
-                <img src="assets/certificados/java-intermedio-proydesa.jpg" alt="Certificado de Java Intermedio v7"
-                  width="1400" height="991" loading="lazy" draggable="false" />
-                <span class="cert-zoom" aria-hidden="true">Ampliar</span>
-              </button>
-              <div class="cert-body">
-                <div class="cert-meta"><span>FUNDACIÓN PROYDESA · ORACLE</span><span>2018</span></div>
-                <h3>Java Intermedio v7</h3>
-                <p>Cursada de Java nivel intermedio dentro del programa Oracle Workforce Development.</p>
-                <div class="tags"><span>Java</span></div>
-              </div>
-            </li>
-            <li class="cert-card">
-              <button class="cert-thumb" type="button" data-full="assets/certificados/nobel-hardware-redes.jpg"
-                aria-label="Ampliar certificado: Técnico en hardware de PC y redes">
-                <img src="assets/certificados/nobel-hardware-redes.jpg"
-                  alt="Certificado de Técnico en hardware de PC y redes" width="579" height="411" loading="lazy"
-                  draggable="false" />
-                <span class="cert-zoom" aria-hidden="true">Ampliar</span>
-              </button>
-              <div class="cert-body">
-                <div class="cert-meta"><span>INSTITUTO NOBEL</span><span>2010</span></div>
-                <h3>Técnico en hardware de PC y redes</h3>
-                <p>Base técnica en hardware de computadoras y redes informáticas: 144 horas cátedra.</p>
-                <div class="tags"><span>Hardware</span><span>Redes</span></div>
-              </div>
-            </li>
+          <li class="cert-card">
+            <button class="cert-thumb" type="button" data-full="assets/certificados/ia-generativa-unc.jpg" aria-label="Ampliar certificado: IA generativa para desarrolladores">
+              <img src="assets/certificados/ia-generativa-unc.jpg" alt="Certificado de IA generativa para desarrolladores" width="1400" height="969" loading="lazy" draggable="false" />
+              <span class="cert-zoom" aria-hidden="true">Ampliar</span>
+            </button>
+            <div class="cert-body">
+              <div class="cert-meta"><span>UNC CAMPUS NORTE · GOOGLE CLOUD</span><span>2025</span></div>
+              <h3>IA generativa para desarrolladores</h3>
+              <p>Módulo universitario de 27 horas sobre el uso de IA generativa como apoyo en el desarrollo de software.</p>
+              <div class="tags"><span>IA generativa</span><span>Google Cloud</span></div>
+            </div>
+          </li>
+          <li class="cert-card">
+            <button class="cert-thumb" type="button" data-full="assets/certificados/react-typescript-udemy.jpg" aria-label="Ampliar certificado: React y TypeScript: la guía completa">
+              <img src="assets/certificados/react-typescript-udemy.jpg" alt="Certificado de React y TypeScript: la guía completa" width="1400" height="1041" loading="lazy" draggable="false" />
+              <span class="cert-zoom" aria-hidden="true">Ampliar</span>
+            </button>
+            <div class="cert-body">
+              <div class="cert-meta"><span>UDEMY</span><span>2025</span></div>
+              <h3>React y TypeScript: la guía completa</h3>
+              <p>Curso de 58 horas donde construí más de 10 proyectos con React y TypeScript.</p>
+              <div class="tags"><span>React</span><span>TypeScript</span></div>
+            </div>
+          </li>
+          <li class="cert-card">
+            <button class="cert-thumb" type="button" data-full="assets/certificados/js-master-udemy.jpg" aria-label="Ampliar certificado: Máster en JavaScript">
+              <img src="assets/certificados/js-master-udemy.jpg" alt="Certificado de Máster en JavaScript" width="1400" height="1041" loading="lazy" draggable="false" />
+              <span class="cert-zoom" aria-hidden="true">Ampliar</span>
+            </button>
+            <div class="cert-body">
+              <div class="cert-meta"><span>UDEMY</span><span>2020</span></div>
+              <h3>Máster en JavaScript</h3>
+              <p>31 horas recorriendo JavaScript y su ecosistema: jQuery, Angular y Node.js.</p>
+              <div class="tags"><span>JavaScript</span><span>jQuery</span><span>Angular</span><span>Node.js</span></div>
+            </div>
+          </li>
+          <li class="cert-card">
+            <button class="cert-thumb" type="button" data-full="assets/certificados/java-intermedio-proydesa.jpg" aria-label="Ampliar certificado: Java Intermedio v7">
+              <img src="assets/certificados/java-intermedio-proydesa.jpg" alt="Certificado de Java Intermedio v7" width="1400" height="991" loading="lazy" draggable="false" />
+              <span class="cert-zoom" aria-hidden="true">Ampliar</span>
+            </button>
+            <div class="cert-body">
+              <div class="cert-meta"><span>FUNDACIÓN PROYDESA · ORACLE</span><span>2018</span></div>
+              <h3>Java Intermedio v7</h3>
+              <p>Cursada de Java nivel intermedio dentro del programa Oracle Workforce Development.</p>
+              <div class="tags"><span>Java</span></div>
+            </div>
+          </li>
+          <li class="cert-card">
+            <button class="cert-thumb" type="button" data-full="assets/certificados/nobel-hardware-redes.jpg" aria-label="Ampliar certificado: Técnico en hardware de PC y redes">
+              <img src="assets/certificados/nobel-hardware-redes.jpg" alt="Certificado de Técnico en hardware de PC y redes" width="579" height="411" loading="lazy" draggable="false" />
+              <span class="cert-zoom" aria-hidden="true">Ampliar</span>
+            </button>
+            <div class="cert-body">
+              <div class="cert-meta"><span>INSTITUTO NOBEL</span><span>2010</span></div>
+              <h3>Técnico en hardware de PC y redes</h3>
+              <p>Base técnica en hardware de computadoras y redes informáticas: 144 horas cátedra.</p>
+              <div class="tags"><span>Hardware</span><span>Redes</span></div>
+            </div>
+          </li>
           </ul>
         </div>
       </div>
       <dialog class="cert-dialog" id="cert-dialog" aria-label="Certificado ampliado">
         <button class="cert-close" type="button" aria-label="Cerrar">
-          <svg class="icon-line" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
+          <svg class="icon-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
         <img alt="" />
         <p class="cert-caption"></p>
