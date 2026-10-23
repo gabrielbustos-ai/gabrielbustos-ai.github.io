@@ -105,60 +105,65 @@
       </div>
       <div class="project-list">
         <article class="project-row">
-          <div class="project-visual wallet-visual">
-            <div class="wallet-top">
-              <span class="wallet-brand">nexo<span>.</span></span><span class="wallet-dots">•••</span>
-            </div>
-            <span class="wallet-caption">SALDO DISPONIBLE</span><strong class="wallet-amount">$
-              24.850<span>,00</span></strong>
-            <div class="wallet-bars">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-            </div>
-            <div class="wallet-bottom">
-              <span>← Enviar</span><span>＋ Ingresar</span>
+          <div class="project-visual gtfs-visual">
+            <div class="gtfs-map">
+              <svg viewBox="0 0 300 180" role="img" aria-label="Mapa con rutas de transporte y paradas marcadas">
+                <path class="r-cyan" d="M10 140 C70 150 90 60 150 80 S250 130 292 40" />
+                <path class="r-violet" d="M10 50 C80 20 110 120 170 110 S250 60 292 120" />
+                <path class="r-cyan r-dim" d="M40 175 C90 120 150 150 210 100 S270 90 292 85" />
+                <circle class="stop" cx="52" cy="128" r="4" />
+                <circle class="stop" cx="150" cy="80" r="4" />
+                <circle class="stop" cx="236" cy="102" r="4" />
+                <circle class="stop stop-v" cx="110" cy="78" r="4" />
+                <circle class="stop stop-v" cx="196" cy="110" r="4" />
+                <circle class="alert-ring" cx="170" cy="110" r="11" />
+                <circle class="alert-dot" cx="170" cy="110" r="4.5" />
+              </svg>
+              <div class="gtfs-kpis"><span>RUTAS</span><span>PARADAS</span><span class="kpi-alert">ALERTAS</span></div>
             </div>
           </div>
           <div class="project-info">
             <div class="project-meta">
-              <span>DESARROLLO MÓVIL</span><span>01</span>
+              <span>MAPAS Y DATOS GEOGRÁFICOS</span><span>01</span>
             </div>
-            <h3>Billetera virtual</h3>
+            <h3>Validador de redes de transporte</h3>
             <p>
-              Aplicación móvil con transferencias entre cuentas, desarrollada
-              como proyecto académico de Desarrollo de Aplicaciones Móviles.
+              Subís el archivo de una red de transporte público y la herramienta revisa millones de registros,
+              detecta errores en rutas, horarios y coordenadas, y te los muestra sobre un mapa interactivo.
             </p>
             <div class="tags">
-              <span>Expo</span><span>React Native</span><span>JavaScript</span>
+              <span>React</span><span>Node.js</span><span>PostGIS</span><span>Deck.gl</span>
+            </div>
+            <div class="project-links">
+              <a class="pl-primary" href="https://gtfs-validator.vercel.app/" target="_blank" rel="noopener">Ver demo ↗</a>
+              <a href="https://github.com/gabrielbustosdev/GTFS-validator" target="_blank" rel="noopener">Código</a>
             </div>
           </div>
         </article>
         <article class="project-row project-row-reverse">
-          <div class="project-visual web-visual">
-            <div class="web-window">
-              <div class="window-bar">
-                <i></i><i></i><i></i><span>proyecto-web.dev</span>
-              </div>
-              <div class="window-content">
-                <span class="web-kicker">DISEÑO + CÓDIGO</span><strong>Una idea,<br />en
-                  movimiento<span>.</span></strong>
-                <div class="web-lines"><i></i><i></i></div>
-                <span class="web-cta">EXPLORAR ↗</span>
-              </div>
+          <div class="project-visual api-visual">
+            <div class="api-panel">
+              <div class="api-head"><span>/api/products</span><span class="api-jwt">JWT</span></div>
+              <div class="api-row"><b class="m-get">GET</b><span>/products</span><i>público</i></div>
+              <div class="api-row"><b class="m-post">POST</b><span>/products</span><i>admin</i></div>
+              <div class="api-row"><b class="m-patch">PATCH</b><span>/products/:id</span><i>admin</i></div>
+              <div class="api-row"><b class="m-del">DELETE</b><span>/products/:id</span><i>admin</i></div>
             </div>
-            <div class="web-orbit orbit-one"></div>
-            <div class="web-orbit orbit-two"></div>
           </div>
           <div class="project-info">
             <div class="project-meta">
-              <span>DESARROLLO WEB</span><span>02</span>
+              <span>DESARROLLO BACKEND</span><span>02</span>
             </div>
-            <h3>Experiencia web con Vite</h3>
+            <h3>Administrador de productos (API)</h3>
             <p>
-              Sitio web construido con Vite y Tailwind, con una identidad
-              visual propia y atención al detalle en interfaz y tipografía.
+              El motor detrás de un catálogo de productos: inicio de sesión, permisos por rol, documentación
+              interactiva y pruebas automáticas, para que cualquier web o app pueda conectarse.
             </p>
             <div class="tags">
-              <span>Vite</span><span>Tailwind</span><span>JavaScript</span>
+              <span>Node.js</span><span>TypeScript</span><span>PostgreSQL</span><span>JWT</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/gabrielbustosdev/administrador-de-productos-api-server" target="_blank" rel="noopener">Código</a>
             </div>
           </div>
         </article>
@@ -169,11 +174,11 @@
                 <span>FUENTE</span><span>PROCESO</span><span>SALIDA</span>
               </div>
               <div class="data-flow-row">
-                <span class="data-chip">CSV / API</span><b></b><span
-                  class="data-chip data-chip-mid">ETL</span><b></b><span class="data-chip data-chip-end">BI + GIS</span>
+                <span class="data-chip">SQL</span><b></b><span
+                  class="data-chip data-chip-mid">PDI</span><b></b><span class="data-chip data-chip-end">PostgreSQL</span>
               </div>
               <div class="data-grid-foot">
-                <span>CAPTURAR</span><span>TRANSFORMAR</span><span>INTERPRETAR</span>
+                <span>EXTRAER</span><span>TRANSFORMAR</span><span>CARGAR</span>
               </div>
             </div>
             <span class="data-visual-stamp">DATOS<br />EN CONTEXTO</span>
@@ -182,11 +187,11 @@
             <div class="project-meta">
               <span>DATOS Y PROCESOS</span><span>03</span>
             </div>
-            <h3>Del dato al tablero</h3>
-            <p>Un flujo que toma datos de distintas fuentes, los limpia y los deja listos para consultar en tableros y
-              mapas.</p>
+            <h3>De la base de datos al informe</h3>
+            <p>Una consulta que reúne datos de más de quince tablas y un proceso automático que los carga ordenados
+              en PostgreSQL, listos para consultar.</p>
             <div class="tags">
-              <span>ETL</span><span>Tableros</span><span>GIS</span>
+              <span>SQL</span><span>Pentaho PDI</span><span>PostgreSQL</span><span>ETL</span>
             </div>
           </div>
         </article>
@@ -388,9 +393,22 @@
   </main>
 
   <footer class="site-footer">
-    <a class="footer-brand" href="#inicio">GB</a>
-    <p>Gabriel Bustos · Desarrollo web, apps y datos · Río Tercero</p>
-    <a href="#inicio" class="back-top">VOLVER ARRIBA ↑</a><span>© <span id="year"></span></span>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <a href="#inicio" class="brand-link"><img src="assets/logo-con-fondo.png" alt="Logo Gabriel Bustos"
+          width="56" />
+        <span>Gabriel Bustos</span></a>
+      </div>
+      <div class="footer-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#soluciones">Qué hago</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#contacto">Hablemos</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>© <span id="year">2024</span> <a href="https://gabrielbustos-ia.github.io" target="_blank" rel="noopener">Gabriel Bustos</a></p>
+    </div>
   </footer>
   <script src="js/script.js"></script>
 </body>

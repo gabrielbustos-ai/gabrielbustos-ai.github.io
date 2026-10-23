@@ -77,10 +77,14 @@ themeBtn.addEventListener("click", () => {
   if (calm && active) draw(performance.now());
 });
 
-/* Fondo: líneas curvas vivas con pulsos de luz (transmisión de datos) */
+
+/**
+ * TODO:
+ * Reemplazar animación canvas por imagen estatica y quitar propiedades css correspondientes 
+ * a las animaciones canvas
+ * */
 const canvas = document.getElementById("bg-canvas");
-let ctx = null; // el contexto se crea recién cuando el fondo se activa (solo escritorio)
-// El fondo siempre se anima, sin importar la preferencia "reducir movimiento" del sistema
+let ctx = null; 
 const calm = false;
 const t0 = performance.now();
 const STEPS = 160;
@@ -193,7 +197,6 @@ heroEl.addEventListener("pointerleave", () => { tx = 0; ty = 0; });
 readPalette();
 syncThemeLabel();
 
-/* En celulares (<= 700px) el fondo animado no se inicia: el hero usa un fondo estático en CSS */
 const mobileQuery = window.matchMedia("(max-width: 700px)");
 
 const activateBackground = () => {
@@ -267,19 +270,17 @@ form.addEventListener("submit", async (e) => {
   const total = track.children.length;
 
   [...track.children].forEach((li, i) => { li.dataset.n = i; });
-  // Layout fijo: [0] = tarjeta previa (fuera de vista), [1] = la que se ve, [2] = siguiente
   track.prepend(track.lastElementChild);
 
   let busy = false, dragStart = null, dragX = 0, moved = false, timer = 0;
 
-  // El desplazamiento se calcula en CSS (porcentajes), así no depende de medir el ancho en píxeles
+  
   const setPos = (k, drag, animate) => {
     track.classList.toggle("no-anim", !animate);
     track.style.setProperty("--k", k);
     track.style.setProperty("--drag", `${drag}px`);
   };
 
-  // Solo la tarjeta visible recibe foco (evita que el foco desplace el carrusel)
   const sync = () => {
     [...track.children].forEach((li, i) => {
       li.inert = i !== 1;
@@ -291,7 +292,7 @@ form.addEventListener("submit", async (e) => {
   const settle = () => {
     setPos(1, 0, false);
     sync();
-    void track.offsetWidth; // fuerza el reflow antes de reactivar la animación
+    void track.offsetWidth; 
     track.classList.remove("no-anim");
     busy = false;
   };
@@ -312,7 +313,7 @@ form.addEventListener("submit", async (e) => {
     };
     const onEnd = (e) => { if (e.target === track && e.propertyName === "transform") finish(); };
     track.addEventListener("transitionend", onEnd);
-    timer = setTimeout(finish, 700); // respaldo (por ejemplo con "reducir movimiento")
+    timer = setTimeout(finish, 700); 
   };
 
   carousel.addEventListener("click", (e) => {
